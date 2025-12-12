@@ -1,23 +1,49 @@
-# 📊 Projeto 01: Análise e Gestão de Recursos Humanos (RH)
+# 📈 Dashboard de Desempenho de Vendas: Análise de E-commerce
 
-## 🎯 Contexto e Objetivo de Negócio
-O objetivo deste projeto era fornecer à área de RH uma visão clara e instantânea dos indicadores-chave (KPIs) de pessoal para tomar decisões estratégicas sobre contratações e retenção.
-* **Problema Principal:** Medir a taxa de Rotatividade (Turnover) de forma consistente e identificar os departamentos com maior índice.
-* **Solução:** Desenvolvimento de um dashboard em Power BI com medidas de Time Intelligence.
+## 📄 1. Visão Geral do Projeto
 
-## 🛠️ Modelagem e Tratamento de Dados
-Para este projeto, utilizei um modelo de dados simples, mas robusto:
-* **Fontes:** Dados de Funcionários (Dimensão) e Tabela de Movimentação (Fatos - Entradas/Saídas).
-* **Modelagem:** Estrutura Star Schema com relacionamento 1 para Muitos (1:N) entre a Tabela Calendário e a Tabela de Fatos.
-* **DAX Crucial:** Para o cálculo de *Turnover*, utilizamos a função `CALCULATE` combinada com funções de agregação, garantindo precisão:
-  ```dax
-  Turnover Mensal = 
-  DIVIDE(
-      COUNTROWS(
-          FILTER('Fato Movimentacao', 'Fato Movimentacao'[Tipo] = "Saída")
-      ), 
-      AVERAGEX(
-          ALLSELECTED('Dimensao Funcionario'), 
-          [Headcount Atual] 
-      )
-  )
+Este projeto foca em **desempenho comercial**, oferecendo uma análise detalhada das métricas de vendas, faturamento e lucratividade de uma operação de E-commerce. O objetivo é permitir que a equipe comercial tome decisões baseadas em dados sobre a performance de produtos, regiões e canais de venda.
+
+## 🎯 2. Problema de Negócio / Objetivo
+
+* **Problema:** A empresa precisa identificar seus produtos/regiões de maior e menor desempenho para otimizar o estoque, direcionar campanhas de marketing e melhorar a margem de lucro.
+* **Objetivo:** Criar um dashboard que responda a perguntas como:
+    * Qual é a nossa **taxa de crescimento** (YoY - Year over Year)?
+    * Quais são os **Top 5 Produtos** em faturamento e lucro?
+    * Como o desempenho de vendas se distribui geograficamente?
+
+## 💾 3. Fonte dos Dados
+
+* **Arquivo Fonte:** [Descreva o arquivo, ex: `vendas_e_produtos.csv`]
+* **Conteúdo:** Tabela de Fatos de Vendas (Data, Produto ID, Quantidade, Valor) e Tabelas Dimensão (Produtos, Clientes, Tempo/Calendário).
+
+## ⚙️ 4. Transformação e Modelagem de Dados (ETL)
+
+Considerando a natureza dos dados descritivos, o foco do ETL foi garantir a **qualidade e integridade** para os cálculos de Salário e Faltas.
+
+1.  **Transformação (Power Query - Linguagem M):**
+    * **Limpeza e Tratamento:** Garantia de que não havia valores nulos (`null`) nas colunas críticas (Salário, Filial e Chaves de Identificação).
+    * **Tipagem de Dados:** Conversão correta de colunas, como garantir que Salário estivesse em formato numérico e datas no formato `Date`.
+    * **Enriquecimento:** Criação de colunas auxiliares (ex: Mês/Ano para a data de admissão, ou Idade a partir da data de nascimento).
+2.  **Modelagem Dimensional (Power BI Desktop):**
+    * **Estrutura:** Modelo simples, geralmente com uma tabela Fato principal de Funcionários/Movimentações e a criação de uma Tabela Dimensão de Tempo (Date Table) para permitir análise temporal por ano/mês.
+    * **Relações:** Criação e validação de relações 1:N (Um para Muitos) para garantir a correta propagação dos filtros.
+    
+## 💡 5. Principais Métricas (KPIs) e DAX
+
+* **Faturamento Total**
+* **Crescimento Anual (YoY):** $\text{Vendas Ano Atual} / \text{Vendas Ano Anterior} - 1$
+* **Margem de Lucro Bruta:** $\text{Lucro} / \text{Faturamento}$
+* **Ticket Médio:** $\text{Faturamento} / \text{Número de Pedidos}$
+
+## 🖼️ 6. Dashboard: Visualização do Resultado
+
+O dashboard é composto por **uma página focada na descritiva da base de funcionários**.
+
+## ✅ 7. Insights Gerados (Conclusão)
+
+(Será preenchida após a análise do dashboard).
+
+## 🛠️ 8. Ferramentas Utilizadas
+
+* **Power BI Desktop:** Modelagem, DAX, Visualização.
